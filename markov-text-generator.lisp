@@ -35,17 +35,26 @@ result: a list like sequence1, with the updated count for the letter
    
 
 (defun add-next-letter (sequence letter)
-  (let ((res nil))
-    (when (not (null sequence))
-      (
+  (add-next-letter-aux sequence letter () nil)) 
 
-(defun frenquency-counter (k-order text-input)
+
+(defun frequency-counter (k-order text-input)
+" Build a table of frequency and of next letter for every k-gram in the
+text in input"
   (let ((table-frequency (make-hash-table :test 'equal))
-	(token nil))
-    (dotimes (index  (- (length text-input) k-order))
+	(token nil)
+	(letter nil))
+    (dotimes (index  (- (length text-input) (- k-order 1)))
       (setf token (subseq text-input index (+ index k-order)))
+      (if (< (+ index k-order) (length text-input))
+	  (setf letter (elt text-input (+ index k-order)))
+	  (setf letter nil))
       (if (gethash token table-frequency)
-	  (incf (gethash token table-frequency))
-	  (setf (gethash token table-frequency) 1)))
+	  (setf (gethash token table-frequency)
+		(append (list (+ (first (gethash token table-frequency))1))
+			(add-next-letter (cdr (gethash token table-frequency)) letter)))
+	  (setf (gethash token table-frequency) 
+		(append '(1) 
+			(add-next-letter () letter)))))
       table-frequency))
 
