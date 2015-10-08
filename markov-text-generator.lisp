@@ -1,7 +1,10 @@
 
-
-
-
+;;not really elegant, maybe there is a class whitespace?
+(defun sanitize-input (text)
+  (string-trim 
+   '(#\Space #\Newline #\Backspace #\Tab 
+     #\Linefeed #\Page #\Return #\Rubout)
+   text))
 
 ;; calling with (maphash #'print-hash-entry nomdelatable)
 (defun print-hash-entry (key value)
@@ -50,18 +53,18 @@ text in input"
 	  (setf letter (elt text-input (+ index k-order)))
 	  (setf letter nil))
       (when letter 
-      (if (gethash token table-frequency)
-	  (setf (gethash token table-frequency)
-		(append (list (+ (first (gethash token table-frequency))1))
-			(add-next-letter (cdr (gethash token table-frequency)) letter)))
-	  (setf (gethash token table-frequency) 
-		(append '(1) 
-			(add-next-letter () letter)))))
+	(if (gethash token table-frequency)
+	    (setf (gethash token table-frequency)
+		  (append (list (+ (first (gethash token table-frequency))1))
+			  (add-next-letter (cdr (gethash token table-frequency)) letter)))
+	    (setf (gethash token table-frequency) 
+		  (append '(1) 
+			  (add-next-letter () letter))))))
       table-frequency))
 
 
 
-;;todo separer construction et choix? 
+;;todo separer construction et choix? (ya peut etre moyen de garder en memoire les table de proba pour les reutiliser, mm si le calcul est pas super lourd
 (defun choose-next-char (k-gram markov-table)
 "
 Build a table of probabilities and choose a next char 
@@ -84,3 +87,29 @@ Build a table of probabilities and choose a next char
     (car (nth index list-tmp))))
     
   
+
+(defun generate-text (k-order text-input &optional (sizemax (length text-input)))
+" Generate text with a k-order markov-chain 
+that cant exceed sizemax size"
+  (let* ((text (sanitize-input text-input))
+	 (markov-table (frequency-counter k-order text))
+	 (token (subseq text 0  k-order))
+	 (res token)
+	 (char-tmp #\a))
+    (dotimes (index sizemax)
+      (setf char-tmp (choose-next-char token markov-table))
+      (when char-tmp
+	(setf res (concatenate 'string res (list char-tmp)))
+	(setf token (concatenate 'string 
+				 (subseq token 1)
+				 (list char-tmp)))))
+    res))
+       
+       
+
+;;
+(defun file-string (path)
+  (with-open-file (stream path)
+    (let ((data (make-string (file-length stream))))
+      (read-sequence data stream)
+      data)))
