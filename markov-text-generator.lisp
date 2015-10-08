@@ -58,3 +58,8 @@ text in input"
 			(add-next-letter () letter)))))
       table-frequency))
 
+
+;;todo
+(defun choose-next-char (k-gram markov-table)
+  (cdr gethash k-gram markov-table))
+  
