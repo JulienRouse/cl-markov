@@ -49,6 +49,7 @@ text in input"
       (if (< (+ index k-order) (length text-input))
 	  (setf letter (elt text-input (+ index k-order)))
 	  (setf letter nil))
+      (when letter 
       (if (gethash token table-frequency)
 	  (setf (gethash token table-frequency)
 		(append (list (+ (first (gethash token table-frequency))1))
@@ -59,7 +60,27 @@ text in input"
       table-frequency))
 
 
-;;todo
+
+;;todo separer construction et choix? 
 (defun choose-next-char (k-gram markov-table)
-  (cdr gethash k-gram markov-table))
+"
+Build a table of probabilities and choose a next char 
+"
+  (let* ((list-tmp (cdr (gethash k-gram markov-table)))
+	 (tmp 0)
+	 (sum (apply '+ (map 'list #'(lambda (elt) (cdr elt)) list-tmp)))
+	 (list-proba 
+	  (map 'list 
+	       #'(lambda (elt) 
+		   (incf tmp (cdr elt)) 
+		   (/ tmp sum)) 
+	       list-tmp))
+	 (rand-number (random 1.0))
+	 (index 0))
+    (loop for x in list-proba
+       until (> x rand-number)
+       do
+	 (incf index))
+    (car (nth index list-tmp))))
+    
   
