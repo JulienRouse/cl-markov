@@ -4,7 +4,7 @@
 
 cl-markov is a text generator using Markov chain and written in Common Lisp.
 
-Idea come from [here](http://www.cs.princeton.edu/courses/archive/fall08/cos226/assignments/model.html)
+The idea come from [here](http://www.cs.princeton.edu/courses/archive/fall08/cos226/assignments/model.html)
 
 
 ## Usage
