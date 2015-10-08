@@ -45,7 +45,7 @@ Oportere similique scriptorem has te, duo ex dicit suscipit nominati. At ius sua
  Ei qui fugit impedit lobortis.
 ```
 
-Example 2: [speech_model](http://www.cs.princeton.edu/courses/archive/fall08/cos226/assignments/model-speech.txt) found on the princeton course website.
+###Example 2: [speech_model](http://www.cs.princeton.edu/courses/archive/fall08/cos226/assignments/model-speech.txt) found on the princeton course website.
 
 **Original**
 
