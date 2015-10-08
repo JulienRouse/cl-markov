@@ -11,7 +11,7 @@ Idea come from [here](http://www.cs.princeton.edu/courses/archive/fall08/cos226/
 
 The main function to use is:
 
-``` Common Lisp
+``` 
 
 (generate-text k-order input-text &optional (size-output (length input-text))
 
