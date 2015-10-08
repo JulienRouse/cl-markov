@@ -2,7 +2,7 @@
 
 
 
-This is a text generator, using  Markov chain.
+cl-markov is a text generator using Markov chain and written in Common Lisp.
 
 Idea come from [here](http://www.cs.princeton.edu/courses/archive/fall08/cos226/assignments/model.html)
 
@@ -11,7 +11,7 @@ Idea come from [here](http://www.cs.princeton.edu/courses/archive/fall08/cos226/
 
 The main function to use is:
 
-``` 
+```lisp
 
 (generate-text k-order input-text &optional (size-output (length input-text))
 
